@@ -3,6 +3,7 @@
 토스인컴 Security Engineer 등 채용 지원용 **개인 소개 웹사이트**.
 
 - GitHub: [JimProKing](https://github.com/JimProKing)
+- Live: https://web-production-d48cbf.up.railway.app/
 - 로컬: 부팅 연출 → 스토리 타임라인 → 프로젝트 벤토 → 커맨드 팔레트(`⌘K` / `Ctrl+K`)
 
 ## 로컬 실행

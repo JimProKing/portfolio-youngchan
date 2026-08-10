@@ -743,6 +743,52 @@ body:not(.booting) .cursor-glow { opacity: 1; }
   border: 1px solid var(--line);
 }
 
+.card__badge {
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #041018;
+  background: linear-gradient(135deg, var(--cyan), #5ee4a8);
+  box-shadow: 0 0 12px rgba(61, 224, 255, 0.25);
+}
+
+.card--demo {
+  border-color: rgba(61, 224, 255, 0.22);
+}
+
+.card--demo:hover {
+  border-color: rgba(61, 224, 255, 0.5);
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.card__src {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-mute);
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--line);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+.card__src:hover {
+  color: var(--text);
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+
 .card h3 {
   font-size: 1.2rem;
   font-weight: 700;

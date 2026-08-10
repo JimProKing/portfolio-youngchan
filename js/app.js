@@ -314,6 +314,24 @@
     }
   }
 
+  /* ───────── Card secondary GitHub link ───────── */
+  function bindCardSources() {
+    $$(".card__src[data-href]").forEach((el) => {
+      el.setAttribute("role", "link");
+      el.tabIndex = 0;
+      const go = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const href = el.getAttribute("data-href");
+        if (href) window.open(href, "_blank", "noopener");
+      };
+      el.addEventListener("click", go);
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") go(e);
+      });
+    });
+  }
+
   /* ───────── Init ───────── */
   function init() {
     // reduced motion: skip long boot
@@ -341,6 +359,8 @@
         drawNetwork();
       });
     }
+
+    bindCardSources();
 
     $("#cmd-open")?.addEventListener("click", openCmd);
     $("#hero-cmd")?.addEventListener("click", openCmd);
