@@ -1,0 +1,11 @@
+﻿# Node
+node_modules/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Local previews / generator artifacts
+preview/
+.railway/

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="이영찬 — 현장의 문제를 서버로 푸는 엔지니어. 보안 · 백엔드 · 풀스택. GitHub JimProKing" />
+  <meta name="theme-color" content="#05070f" />
+  <title>이영찬 · Youngchan Lee — Portfolio Runtime</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- BOOT SEQUENCE -->
+  <div id="boot" class="boot" aria-hidden="true">
+    <div class="boot__noise"></div>
+    <div class="boot__panel">
+      <div class="boot__meta">
+        <span class="boot__logo">YC.RUNTIME</span>
+        <span class="boot__ver">v1.0.0 · personal portfolio</span>
+      </div>
+      <pre id="boot-log" class="boot__log"></pre>
+      <div class="boot__bar"><div id="boot-fill" class="boot__fill"></div></div>
+    </div>
+  </div>
+
+  <!-- CURSOR GLOW -->
+  <div id="cursor-glow" class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand">
+      <span class="nav__dot"></span>
+      YC<span class="nav__dim">.runtime</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#story">Story</a>
+      <a href="#work">Work</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button type="button" class="nav__cmd" id="cmd-open" aria-label="커맨드 팔레트 열기">
+      <kbd>⌘K</kbd>
+      <span>Command</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <canvas id="hero-canvas" class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__grid" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__badge reveal">
+          <span class="pulse"></span>
+          NOW SERVING · 국세청 전산직 · Building in public
+        </div>
+
+        <h1 class="hero__title reveal">
+          <span class="hero__line">현장의 문제를</span>
+          <span class="hero__line hero__line--accent">
+            <span class="type-swap" id="type-swap">서버</span>로 푸는 사람
+          </span>
+        </h1>
+
+        <p class="hero__lead reveal">
+          이영찬 · Lee Young-chan<br />
+          화학 엔지니어 → 공정 자동화로 개발 적성 확인 → Flutter 앱 10+ 출시 → 해킹 피해 → 보안·전산으로 전환.<br />
+          지금은 방어형 위협 헌팅, 교육 시뮬, 실전 웹 도구를 GitHub에 공개하며 역량을 키웁니다.
+        </p>
+
+        <div class="hero__cta reveal">
+          <a class="btn btn--primary" href="#work">프로젝트 보기</a>
+          <a class="btn btn--ghost" href="https://github.com/JimProKing" target="_blank" rel="noopener">
+            GitHub ↗
+          </a>
+          <button type="button" class="btn btn--ghost" id="hero-cmd">
+            <span class="mono">$ whoami</span>
+          </button>
+        </div>
+
+        <div class="hero__metrics reveal">
+          <div class="metric">
+            <strong>10+</strong>
+            <span>스토어 출시 앱</span>
+          </div>
+          <div class="metric">
+            <strong>50+</strong>
+            <span>Public repos</span>
+          </div>
+          <div class="metric">
+            <strong>9급</strong>
+            <span>국가직 전산 합격</span>
+          </div>
+          <div class="metric">
+            <strong>0→1</strong>
+            <span>기획·개발·운영</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__aside reveal">
+        <div class="hero__photo-wrap">
+          <div class="hero__photo-ring" aria-hidden="true"></div>
+          <img
+            class="hero__photo"
+            src="assets/profile.jpg"
+            alt="이영찬 프로필 사진"
+            width="280"
+            height="280"
+            loading="eager"
+          />
+          <div class="hero__photo-meta">
+            <span class="dot-live"></span>
+            <span>이영찬 · Lee Young-chan</span>
+          </div>
+        </div>
+        <div class="status-card">
+          <div class="status-card__h">
+            <span class="dot-live"></span>
+            youngchan.serve()
+          </div>
+          <ul class="status-card__list">
+            <li><span>uptime</span><b>building</b></li>
+            <li><span>focus</span><b>security + backend</b></li>
+            <li><span>queue</span><b>ML / AI serving</b></li>
+            <li><span>region</span><b>KR · public</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORY -->
+    <section class="section" id="story">
+      <div class="section__head">
+        <p class="eyebrow">01 · STORY</p>
+        <h2>왜 이 길을 택했는가</h2>
+        <p class="section__sub">선형 이력서가 아니라, 문제를 만나고 방향을 튼 로그입니다.</p>
+      </div>
+
+      <div class="timeline">
+        <article class="tl reveal" data-step="01">
+          <div class="tl__node"></div>
+          <div class="tl__body">
+            <time>2021 · 화학 엔지니어</time>
+            <h3>현장 → 코드</h3>
+            <p>
+              화학공학 전공 후, 화학 엔지니어로 사회생활을 시작하였습니다.
+              다양한 공정 자동화 프로그램을 개인적 프로젝트로 만들며, <em>개발에 적성</em>을 느꼈습니다.
+              이후, 본격적으로 개발 공부를 시작한 뒤 전산계통으로 업종을 변경하였습니다.
+            </p>
+            <div class="tags"><span>공정 자동화</span><span>개인 프로젝트</span><span>업종 전환</span></div>
+          </div>
+        </article>
+
+        <article class="tl reveal" data-step="02">
+          <div class="tl__node"></div>
+          <div class="tl__body">
+            <time>2022–2023 · 개인사업 (상호: 짐앱)</time>
+            <h3>0→1 제품 출시</h3>
+            <p>
+              Flutter로 교육·자격 대비 앱 <strong>10여 개</strong>를 기획·UI·배포·판매까지 단독 수행.
+              iOS·Android 동시 출시. App Store Connect · Play Console 실전 운영.
+            </p>
+            <div class="tags"><span>Flutter</span><span>Dart</span><span>Store 출시</span></div>
+          </div>
+        </article>
+
+        <article class="tl reveal" data-step="03">
+          <div class="tl__node tl__node--alert"></div>
+          <div class="tl__body">
+            <time>전환점</time>
+            <h3>해킹 피해 → 보안 동기</h3>
+            <p>
+              출시 앱이 해킹당하며 <em>개발만으로는 부족한 영역</em>을 체감.
+              법리·보안 전문성을 함께 키우기 위해 전산직 공무원 시험을 선택.
+            </p>
+            <div class="tags"><span>AppSec</span><span>방어</span><span>동기부여</span></div>
+          </div>
+        </article>
+
+        <article class="tl reveal" data-step="04">
+          <div class="tl__node"></div>
+          <div class="tl__body">
+            <time>2024.11 ~ · 국세청 전산직 9급</time>
+            <h3>안정 운영 + 공개 학습</h3>
+            <p>
+              4개월 집중 수험 후 국가직 합격. 행정 전산 환경에서 시스템 운영 감각을 쌓으며,
+              GitHub에 위협 헌팅 엔진·교육 시뮬·웹 해킹 랩을 공개 중.
+            </p>
+            <div class="tags"><span>공공 전산</span><span>Open Source</span><span>보안 학습</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="section section--alt" id="work">
+      <div class="section__head">
+        <p class="eyebrow">02 · DEPLOYED WORK</p>
+        <h2>서비스처럼 보이는 프로젝트</h2>
+        <p class="section__sub">각 카드는 실제 GitHub 저장소입니다. 문제는 직접 겪고, 도구로 풀었습니다.</p>
+      </div>
+
+      <div class="bento">
+        <a class="card card--lg reveal" href="https://github.com/JimProKing/aegis-cortex" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / threat-hunt</span>
+            <span class="card__lang">Python</span>
+          </div>
+          <h3>Aegis Cortex</h3>
+          <p>방어 중심 다중 소스 위협 헌팅 엔진. 인증·방화벽·프록시·DNS·EDR 로그와 IOC를 상관분석해 킬체인 스토리를 재구성하고 MITRE ATT&amp;CK 리포트를 생성.</p>
+          <ul class="card__bullets">
+            <li>이기종 로그 → 단일 이벤트 모델 정규화</li>
+            <li>상관(correlation)으로 노이즈 감소</li>
+            <li>오프라인 데모 시나리오 포함</li>
+          </ul>
+          <span class="card__link">github.com/JimProKing/aegis-cortex ↗</span>
+        </a>
+
+        <a class="card reveal" href="https://github.com/JimProKing/aegis-protocol" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / edu-sim</span>
+            <span class="card__lang">JS</span>
+          </div>
+          <h3>AEGIS PROTOCOL</h3>
+          <p>정보보안 전문가 양성 시뮬레이션. 10개 작전 브리핑·실습·디브리핑으로 위험·신뢰경계·심층방어 사고 프레임 훈련.</p>
+          <span class="card__link">저장소 보기 ↗</span>
+        </a>
+
+        <a class="card reveal" href="https://github.com/JimProKing/optical-qr-transfer" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / airgap</span>
+            <span class="card__lang">JS</span>
+          </div>
+          <h3>Optical QR Transfer</h3>
+          <p>인터넷 없이 빛(QR)과 카메라만으로 파일 전송. 에어갭 환경 아이디어 프로토타입.</p>
+          <span class="card__link">저장소 보기 ↗</span>
+        </a>
+
+        <a class="card reveal" href="https://github.com/JimProKing/webhacking-bible-lab" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / vuln-lab</span>
+            <span class="card__lang">Python</span>
+          </div>
+          <h3>VulnBoard / 웹해킹 랩</h3>
+          <p>의도적 취약 웹 실습(SQLi, XSS, IDOR, Command Injection). Burp Suite 실습용 구조화된 문제.</p>
+          <span class="card__link">저장소 보기 ↗</span>
+        </a>
+
+        <a class="card reveal" href="https://github.com/JimProKing/elliott-wave-scanner" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / quant-scan</span>
+            <span class="card__lang">Python</span>
+          </div>
+          <h3>Elliott Wave Scanner</h3>
+          <p>엘리어트 파동 기반 차트 스캐너. GitHub Actions 자동 분석 + XRP 온체인 대시보드 연계.</p>
+          <span class="card__link">저장소 보기 ↗</span>
+        </a>
+
+        <a class="card reveal" href="https://github.com/JimProKing" target="_blank" rel="noopener">
+          <div class="card__top">
+            <span class="card__svc">svc / learn-tools</span>
+            <span class="card__lang">Flask</span>
+          </div>
+          <h3>info-sec-memo · tax-invoice</h3>
+          <p>정보보안기사 손글씨 기출 웹 노트(82p), 한국형 세금계산서 작성 웹앱 등 실무·학습 도구.</p>
+          <span class="card__link">GitHub 전체 보기 ↗</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="section" id="stack">
+      <div class="section__head">
+        <p class="eyebrow">03 · RUNTIME STACK</p>
+        <h2>기술 스택 한눈에</h2>
+        <p class="section__sub">언어보다 <em>무엇을 만들었는지</em>가 우선. 스택은 그 수단입니다.</p>
+      </div>
+
+      <div class="stack-grid">
+        <div class="stack-panel reveal">
+          <h3>Language</h3>
+          <div class="chips">
+            <span>Python</span><span>Dart</span><span>JavaScript</span><span>HTML/CSS</span><span>VBA</span>
+          </div>
+        </div>
+        <div class="stack-panel reveal">
+          <h3>Backend</h3>
+          <div class="chips">
+            <span>FastAPI</span><span>Flask</span><span>Django</span><span>Spring</span><span>SQLite</span>
+          </div>
+        </div>
+        <div class="stack-panel reveal">
+          <h3>Mobile</h3>
+          <div class="chips">
+            <span>Flutter</span><span>iOS 배포</span><span>Android 배포</span>
+          </div>
+        </div>
+        <div class="stack-panel reveal">
+          <h3>Security</h3>
+          <div class="chips">
+            <span>웹해킹</span><span>SQLi/XSS/IDOR</span><span>Burp Suite</span><span>로그 상관</span><span>IOC</span><span>MITRE ATT&amp;CK</span>
+          </div>
+        </div>
+        <div class="stack-panel reveal">
+          <h3>Data &amp; Ops</h3>
+          <div class="chips">
+            <span>pandas</span><span>크롤링</span><span>OCR</span><span>GitHub Actions</span><span>Railway</span>
+          </div>
+        </div>
+        <div class="stack-panel stack-panel--accent reveal">
+          <h3>Interest → Next</h3>
+          <p class="stack-next">
+            ML 모델 서빙 · 안정적인 API 설계 · 대규모 트래픽 대비 아키텍처<br />
+            <span class="dim">토스뱅크 ML Backend 방향의 서버 역량으로 확장 중</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="section section--alt" id="values">
+      <div class="section__head">
+        <p class="eyebrow">04 · PRINCIPLES</p>
+        <h2>일하는 방식</h2>
+      </div>
+      <div class="principles">
+        <article class="prin reveal">
+          <span class="prin__n">01</span>
+          <h3>현장 → 코드</h3>
+          <p>공정 자동화 개인 프로젝트로 개발 적성을 확인하고, 전산으로 업종 전환.</p>
+        </article>
+        <article class="prin reveal">
+          <span class="prin__n">02</span>
+          <h3>0→1 출시</h3>
+          <p>아이디어를 스토어 배포·운영까지 완주한 10+ 앱 포트폴리오.</p>
+        </article>
+        <article class="prin reveal">
+          <span class="prin__n">03</span>
+          <h3>보안 동기부여</h3>
+          <p>실제 해킹 피해를 계기로 방어·교육·탐지 쪽으로 학습 방향을 전환.</p>
+        </article>
+        <article class="prin reveal">
+          <span class="prin__n">04</span>
+          <h3>학습의 공개화</h3>
+          <p>교육 게임·암기장·랩을 만들어 스스로 검증하며 GitHub에 공유.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section contact" id="contact">
+      <div class="contact__panel reveal">
+        <p class="eyebrow">05 · CONNECT</p>
+        <h2>같이 만들고 싶다면</h2>
+        <p>
+          서버를 설계하고, 안정적으로 돌리고, 문제를 제품으로 바꾸는 일에 관심이 많습니다.<br />
+          이력서·협업·질문 모두 환영합니다.
+        </p>
+        <div class="contact__links">
+          <a class="btn btn--primary" href="mailto:caramel2516@naver.com">Email</a>
+          <a class="btn btn--ghost" href="https://github.com/JimProKing" target="_blank" rel="noopener">GitHub</a>
+          <span class="btn btn--ghost" title="카카오톡 검색">Kakao · caramel112</span>
+        </div>
+        <p class="contact__meta mono">
+          caramel2516@naver.com · github.com/JimProKing · 경상대 화학공학 · 1996.12.27
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© <span id="y"></span> Youngchan Lee</span>
+    <span class="mono">YC.RUNTIME · built for portfolio</span>
+  </footer>
+
+  <!-- COMMAND PALETTE -->
+  <div id="cmd" class="cmd" hidden>
+    <div class="cmd__backdrop" data-close></div>
+    <div class="cmd__box" role="dialog" aria-modal="true" aria-label="커맨드 팔레트">
+      <div class="cmd__input-wrap">
+        <span class="mono">$</span>
+        <input id="cmd-input" type="text" autocomplete="off" spellcheck="false"
+               placeholder="whoami · projects · story · github · email · help" />
+      </div>
+      <div id="cmd-out" class="cmd__out mono"></div>
+      <ul id="cmd-list" class="cmd__list"></ul>
+      <p class="cmd__hint">Enter 실행 · Esc 닫기 · ↑↓ 선택</p>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
