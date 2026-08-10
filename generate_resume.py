@@ -133,6 +133,53 @@ def draw_chip(c, label, x, y, font="KR", size=7.5):
     return w + 4
 
 
+def draw_padded_box(c, x, top_y, width, lines, pad_x=7, pad_y=6, r=4,
+                    title_size=8, body_size=7.4, title_color=CYAN, body_color=TEXT,
+                    line_gap=2.5):
+    """
+    Draw a rounded box sized to content, with text vertically centered.
+    `lines` is a list of (text, font, size, color) OR a special single-row
+    layout: list of segments for one baseline: [(text, font, size, color), ...]
+    and multi: list of rows where each row is either str segments or one string row.
+
+    Simpler API used below: rows = list of rows; each row is list of (text, font, size, color)
+    Returns new top_y below the box (cursor for next content).
+    """
+    # measure each row width/height
+    row_heights = []
+    measured = []
+    for row in lines:
+        # row: list of segments (text, font, size, color)
+        max_sz = max(seg[2] for seg in row) if row else body_size
+        # visual line height ~ size * 1.15
+        h = max_sz * 1.15
+        measured.append((row, h, max_sz))
+        row_heights.append(h)
+
+    content_h = sum(row_heights) + line_gap * max(0, len(row_heights) - 1)
+    box_h = content_h + pad_y * 2
+    box_bottom = top_y - box_h
+
+    draw_round_rect(c, x, box_bottom, width, box_h, r=r, fill=SOFT, stroke=LINE)
+
+    # content block centered vertically inside box
+    block_top = box_bottom + box_h - pad_y
+    cursor = block_top
+    for row, h, max_sz in measured:
+        # baseline: optical vertical center of this row band
+        # band occupies [cursor-h, cursor]; baseline ~ center - 0.32*size
+        baseline = cursor - h / 2 - max_sz * 0.12
+        sx = x + pad_x
+        for text, font, size, color in row:
+            set_fill(c, color)
+            c.setFont(font, size)
+            c.drawString(sx, baseline, text)
+            sx += c.stringWidth(text, font, size)
+        cursor -= h + line_gap
+
+    return box_bottom - 3  # gap under box
+
+
 def draw_sidebar(c, page=1):
     # full height sidebar
     set_fill(c, SIDE)
@@ -264,25 +311,28 @@ def page1(c):
     c.line(x, y, x + 36 * mm, y)
     y -= 14
 
-    # summary card (compact: height fits text)
+    # summary card — content-sized, vertically centered text
     summary = (
         "화학공학 전공 후 개발로 전환하여 Flutter 앱 10여 개를 출시·운영하였고, "
         "앱 해킹 피해를 계기로 정보보안 역량을 키워 국가직 9급 전산직에 합격하였습니다. "
         "현재 국세청 전산직으로 근무하며, 위협 헌팅·웹 보안 실습·교육용 보안 도구를 "
         "GitHub에 공개하고 있습니다. 서비스와 업무 환경을 지키는 보안 엔지니어로 성장하고자 합니다."
     )
-    sum_size, sum_lead = 8.2, 11.4
-    sum_pad_x, sum_pad_y = 7, 7
+    sum_size = 8.2
+    sum_pad_x, sum_pad_y = 8, 7
     sum_lines = wrap_text(summary, "KR", sum_size, RIGHT_W - sum_pad_x * 2 - 4, c)
-    card_h = sum_pad_y * 2 + len(sum_lines) * sum_lead + 2
-    draw_round_rect(c, x, y - card_h + 6, RIGHT_W, card_h, r=5, fill=SOFT, stroke=LINE)
-    set_fill(c, CYAN)
-    c.rect(x, y - card_h + 6, 2.2, card_h, fill=1, stroke=0)
-    draw_paragraph(
-        c, summary, x + sum_pad_x + 2, y - sum_pad_y + 2,
-        RIGHT_W - sum_pad_x * 2 - 4, size=sum_size, leading=sum_lead, color=TEXT,
+    sum_rows = [[(ln, "KR", sum_size, TEXT)] for ln in sum_lines]
+    # measure then draw with accent bar
+    y_before = y
+    y = draw_padded_box(
+        c, x, y, RIGHT_W, sum_rows,
+        pad_x=sum_pad_x, pad_y=sum_pad_y, r=5, line_gap=2.2,
     )
-    y = y - card_h - 8
+    # cyan accent on left of the just-drawn box
+    box_h = y_before - y - 3
+    set_fill(c, CYAN)
+    c.rect(x, y + 3, 2.2, box_h, fill=1, stroke=0)
+    y -= 6
 
     # Experience
     y = draw_section_title(c, "경력 및 여정", x, y, RIGHT_W)
@@ -437,33 +487,32 @@ def page2(c):
         ("학습의 공개화", "보안 교육 시뮬·암기장·랩을 직접 만들어 검증하고 GitHub에 공유합니다."),
     ]
 
-    # compact strength rows — title + description, minimal padding
+    title_size, body_size = 8.0, 7.5
+    pad_x, pad_y = 8, 6
+    gap_title = 6  # space between title and body on same line
+
     for title, desc in strengths:
-        title_w = c.stringWidth(title, "KR-B", 8) + 8
-        desc_w_same = RIGHT_W - title_w - 14
-        same_line = c.stringWidth(desc, "KR", 7.3) <= desc_w_same
-        if same_line:
-            row_h = 12
-            draw_round_rect(c, x, y - row_h + 3, RIGHT_W, row_h + 1, r=3, fill=SOFT, stroke=LINE)
-            set_fill(c, CYAN)
-            c.setFont("KR-B", 8)
-            c.drawString(x + 5, y - 1, title)
-            set_fill(c, TEXT)
-            c.setFont("KR", 7.3)
-            c.drawString(x + 5 + title_w, y - 1, desc)
-            y -= row_h + 2.5
+        title_w = c.stringWidth(title, "KR-B", title_size)
+        # try single line: title + gap + desc
+        avail_same = RIGHT_W - pad_x * 2 - title_w - gap_title
+        if c.stringWidth(desc, "KR", body_size) <= avail_same:
+            rows = [[
+                (title, "KR-B", title_size, CYAN),
+                ("  ", "KR", body_size, TEXT),
+                (desc, "KR", body_size, TEXT),
+            ]]
         else:
-            lines = wrap_text(desc, "KR", 7.3, RIGHT_W - 12, c)
-            row_h = 11 + len(lines) * 9.5 + 3
-            draw_round_rect(c, x, y - row_h + 3, RIGHT_W, row_h + 1, r=3, fill=SOFT, stroke=LINE)
-            set_fill(c, CYAN)
-            c.setFont("KR-B", 8)
-            c.drawString(x + 5, y - 1, title)
-            set_fill(c, TEXT)
-            c.setFont("KR", 7.3)
-            for i, ln in enumerate(lines):
-                c.drawString(x + 5, y - 11 - i * 9.5, ln)
-            y -= row_h + 2.5
+            # title alone, then wrapped body
+            body_lines = wrap_text(desc, "KR", body_size, RIGHT_W - pad_x * 2, c)
+            rows = [[(title, "KR-B", title_size, CYAN)]]
+            for bl in body_lines:
+                rows.append([(bl, "KR", body_size, TEXT)])
+        y = draw_padded_box(
+            c, x, y, RIGHT_W, rows,
+            pad_x=pad_x, pad_y=pad_y, r=4,
+            line_gap=2.0,
+        )
+        y -= 1  # small gap between cards
 
     y -= 6
     y = draw_section_title(c, "기술 스택 한눈에", x, y, RIGHT_W)
