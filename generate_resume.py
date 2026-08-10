@@ -119,7 +119,7 @@ def draw_section_title(c, title, x, y, w):
     set_stroke(c, LINE)
     c.setLineWidth(0.5)
     c.line(x + min(28 * mm, w * 0.25) + 4, y - 4, x + w, y - 4)
-    return y - 16
+    return y - 18  # underline + breathing room before body
 
 
 def baseline_center(box_bottom, box_h, font_size):
@@ -364,11 +364,11 @@ def page1(c):
     for i, ln in enumerate(sum_lines):
         by = start - (i + 1) * line_h + (line_h - sum_size) * 0.45
         c.drawString(x + sum_pad_x + 2, by, ln)
-    y = box_bottom - 8
+    y = box_bottom - 14  # gap under summary box before next section
 
     # Experience
     y = draw_section_title(c, "경력 및 여정", x, y, RIGHT_W)
-    y -= 2
+    y -= 4
 
     jobs = [
         {
@@ -411,24 +411,24 @@ def page1(c):
         c.drawString(x, y, job["title"])
         set_fill(c, MUTE)
         c.setFont("KR", 8)
-        tw = c.stringWidth(job["when"], "KR", 8)
         c.drawRightString(x + RIGHT_W, y, job["when"])
-        y -= 11
+        y -= 12
         set_fill(c, CYAN)
         c.setFont("KR", 8)
         c.drawString(x, y, job["org"])
-        y -= 12
+        y -= 13
         for b in job["bullets"]:
             set_fill(c, MUTE)
             c.setFont("KR", 8.2)
             c.drawString(x + 1, y, "·")
             y = draw_paragraph(c, b, x + 8, y, RIGHT_W - 10, size=8.2, leading=11.5, color=TEXT)
-            y -= 3
-        y -= 8
+            y -= 3.5
+        y -= 11  # space between jobs
 
     # Projects
+    y -= 4
     y = draw_section_title(c, "주요 프로젝트 (GitHub)", x, y, RIGHT_W)
-    y -= 2
+    y -= 3
 
     projects = [
         (
@@ -466,11 +466,11 @@ def page1(c):
         c.drawString(x, y, title)
         y -= 11
         y = draw_paragraph(c, desc, x, y, RIGHT_W, size=8, leading=11.2, color=TEXT)
-        y -= 1
+        y -= 2
         set_fill(c, MUTE)
         c.setFont("KR", 7.2)
         c.drawString(x, y, meta)
-        y -= 13
+        y -= 14  # space between projects
 
     # footer
     set_fill(c, MUTE)
@@ -506,10 +506,10 @@ def page2(c):
         "보안 엔지니어로 성장하고자 합니다."
     )
     y = draw_paragraph(c, story, x, y, RIGHT_W, size=8.3, leading=12.0, color=TEXT)
-    y -= 10
+    y -= 14
 
     y = draw_section_title(c, "핵심 강점", x, y, RIGHT_W)
-    y -= 1
+    y -= 3
 
     strengths = [
         ("보안 동기", "실제 해킹 피해를 계기로 방어·탐지·교육 중심으로 학습 방향을 전환하였습니다."),
@@ -520,11 +520,11 @@ def page2(c):
     ]
 
     for title, desc in strengths:
-        y = draw_strength_row(c, x, y, RIGHT_W, title, desc, label_w=28 * mm)
+        y = draw_strength_row(c, x, y, RIGHT_W, title, desc, label_w=28 * mm, gap=4)
 
-    y -= 6
+    y -= 8
     y = draw_section_title(c, "기술 스택 한눈에", x, y, RIGHT_W)
-    y -= 1
+    y -= 3
 
     chips = [
         "위협 헌팅", "로그 상관", "IOC", "MITRE ATT&CK", "Burp Suite",
@@ -545,9 +545,10 @@ def page2(c):
         box_bottom = row_top - chip_h
         used = draw_chip(c, label, cx, box_bottom, size=7.2, box_h=chip_h)
         cx += used
-    y = row_top - chip_h - 12
+    y = row_top - chip_h - 14
 
     y = draw_section_title(c, "학력", x, y, RIGHT_W)
+    y -= 2
     set_fill(c, TEXT)
     c.setFont("KR-B", 9)
     c.drawString(x, y, "경상국립대학교 (Gyeongsang National University)")
@@ -558,9 +559,10 @@ def page2(c):
     set_fill(c, MUTE)
     c.setFont("KR", 8.2)
     c.drawString(x, y, "융합전공 P&P화학공학 · 공학사")
-    y -= 14
+    y -= 16
 
     y = draw_section_title(c, "연락 및 포트폴리오", x, y, RIGHT_W)
+    y -= 2
     contact_rows = [
         ("Email", "caramel2516@naver.com"),
         ("KakaoTalk", "caramel112"),
