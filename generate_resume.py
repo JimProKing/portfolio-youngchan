@@ -123,10 +123,10 @@ def draw_section_title(c, title, x, y, w):
 
 
 def draw_chip(c, label, x, y, font="KR", size=7.5):
-    pad_x, pad_y = 5, 3
+    pad_x, pad_y = 4, 2.5
     tw = c.stringWidth(label, font, size)
     w, h = tw + pad_x * 2, size + pad_y * 2 + 1
-    draw_round_rect(c, x, y - pad_y, w, h, r=3.5, fill=(0.90, 0.96, 0.98), stroke=(0.70, 0.88, 0.93))
+    draw_round_rect(c, x, y - pad_y, w, h, r=3, fill=(0.90, 0.96, 0.98), stroke=(0.70, 0.88, 0.93))
     set_fill(c, CYAN)
     c.setFont(font, size)
     c.drawString(x + pad_x, y, label)
@@ -264,19 +264,25 @@ def page1(c):
     c.line(x, y, x + 36 * mm, y)
     y -= 14
 
-    # summary card
+    # summary card (compact: height fits text)
     summary = (
         "화학공학 전공 후 개발로 전환하여 Flutter 앱 10여 개를 출시·운영하였고, "
         "앱 해킹 피해를 계기로 정보보안 역량을 키워 국가직 9급 전산직에 합격하였습니다. "
         "현재 국세청 전산직으로 근무하며, 위협 헌팅·웹 보안 실습·교육용 보안 도구를 "
         "GitHub에 공개하고 있습니다. 서비스와 업무 환경을 지키는 보안 엔지니어로 성장하고자 합니다."
     )
-    card_h = 42 * mm
-    draw_round_rect(c, x, y - card_h + 8, RIGHT_W, card_h, r=7, fill=SOFT, stroke=LINE)
+    sum_size, sum_lead = 8.2, 11.4
+    sum_pad_x, sum_pad_y = 7, 7
+    sum_lines = wrap_text(summary, "KR", sum_size, RIGHT_W - sum_pad_x * 2 - 4, c)
+    card_h = sum_pad_y * 2 + len(sum_lines) * sum_lead + 2
+    draw_round_rect(c, x, y - card_h + 6, RIGHT_W, card_h, r=5, fill=SOFT, stroke=LINE)
     set_fill(c, CYAN)
-    c.rect(x, y - card_h + 8, 2.8, card_h, fill=1, stroke=0)
-    draw_paragraph(c, summary, x + 8, y - 4, RIGHT_W - 14, size=8.6, leading=12.8, color=TEXT)
-    y = y - card_h - 6
+    c.rect(x, y - card_h + 6, 2.2, card_h, fill=1, stroke=0)
+    draw_paragraph(
+        c, summary, x + sum_pad_x + 2, y - sum_pad_y + 2,
+        RIGHT_W - sum_pad_x * 2 - 4, size=sum_size, leading=sum_lead, color=TEXT,
+    )
+    y = y - card_h - 8
 
     # Experience
     y = draw_section_title(c, "경력 및 여정", x, y, RIGHT_W)
@@ -410,23 +416,18 @@ def page2(c):
     story = (
         "화학공학 전공 후, 화학 엔지니어로 사회생활을 시작하였습니다. "
         "다양한 공정 자동화 프로그램을 개인 프로젝트로 만들며 개발에 적성을 느꼈습니다. "
-        "이후 본격적으로 개발 공부를 시작하여 전산 계통으로 업종을 변경하였습니다.\n\n"
-        "퇴사 후 프로그래밍과 컴퓨터공학 실력을 쌓았고, 직접 만든 앱을 스토어에 올리고자 Flutter를 선택하였습니다. "
-        "안드로이드·iOS 동시 배포가 가능하다는 점이 결정적이었습니다. "
-        "개인사업자(상호명 짐앱)를 내고 교육·자격 대비 앱 10여 개를 직접 개발·출시·판매하였습니다.\n\n"
-        "이후 제작한 모바일 앱이 해킹 피해를 입는 일을 겪었습니다. 개발 실력만으로는 해결되지 않는 문제가 "
-        "많다는 것을 배웠고, 법리와 보안 전문성을 함께 키우고자 하였습니다. 전산직 공무원 수험이 그 "
-        "공백을 메우는 길이 될 수 있다고 판단하여 4개월간 준비하였고, 국가직 9급에 합격하여 국세청 "
-        "전산직으로 근무하고 있습니다.\n\n"
-        "공직 생활과 병행하여 GitHub(JimProKing)에 방어형 위협 헌팅 엔진, 정보보안 교육 시뮬레이션, 웹 해킹 "
-        "실습 랩 등을 공개하며 실전 보안 역량을 쌓고 있습니다. 서비스와 업무 환경을 지키는 "
-        "보안 엔지니어로 성장하는 것이 목표입니다."
+        "이후 본격적으로 개발 공부를 시작하여 전산 계통으로 업종을 변경하였습니다. "
+        "퇴사 후 Flutter로 교육·자격 대비 앱 10여 개를 직접 개발·출시·판매하였습니다. "
+        "이후 출시 앱이 해킹 피해를 입으며 보안 전문성의 필요성을 절감하였고, "
+        "4개월 준비 끝에 국가직 9급에 합격하여 국세청 전산직으로 근무하고 있습니다. "
+        "공직과 병행해 GitHub에 위협 헌팅·보안 교육·웹 해킹 랩 등을 공개하며 "
+        "보안 엔지니어로 성장하고자 합니다."
     )
-    y = draw_paragraph(c, story, x, y, RIGHT_W, size=8.8, leading=13.2, color=TEXT)
-    y -= 14
+    y = draw_paragraph(c, story, x, y, RIGHT_W, size=8.3, leading=12.0, color=TEXT)
+    y -= 10
 
     y = draw_section_title(c, "핵심 강점", x, y, RIGHT_W)
-    y -= 4
+    y -= 2
 
     strengths = [
         ("보안 동기", "실제 해킹 피해를 계기로 방어·탐지·교육 중심으로 학습 방향을 전환하였습니다."),
@@ -436,17 +437,33 @@ def page2(c):
         ("학습의 공개화", "보안 교육 시뮬·암기장·랩을 직접 만들어 검증하고 GitHub에 공유합니다."),
     ]
 
+    # compact strength rows — title + description, minimal padding
     for title, desc in strengths:
-        # mini card
-        ch = 18 * mm
-        if y - ch < 55 * mm:
-            break
-        draw_round_rect(c, x, y - ch + 6, RIGHT_W, ch, r=5, fill=SOFT, stroke=LINE)
-        set_fill(c, CYAN)
-        c.setFont("KR-B", 8.5)
-        c.drawString(x + 7, y - 2, title)
-        draw_paragraph(c, desc, x + 7, y - 13, RIGHT_W - 14, size=8, leading=11, color=TEXT)
-        y -= ch + 4
+        title_w = c.stringWidth(title, "KR-B", 8) + 8
+        desc_w_same = RIGHT_W - title_w - 14
+        same_line = c.stringWidth(desc, "KR", 7.3) <= desc_w_same
+        if same_line:
+            row_h = 12
+            draw_round_rect(c, x, y - row_h + 3, RIGHT_W, row_h + 1, r=3, fill=SOFT, stroke=LINE)
+            set_fill(c, CYAN)
+            c.setFont("KR-B", 8)
+            c.drawString(x + 5, y - 1, title)
+            set_fill(c, TEXT)
+            c.setFont("KR", 7.3)
+            c.drawString(x + 5 + title_w, y - 1, desc)
+            y -= row_h + 2.5
+        else:
+            lines = wrap_text(desc, "KR", 7.3, RIGHT_W - 12, c)
+            row_h = 11 + len(lines) * 9.5 + 3
+            draw_round_rect(c, x, y - row_h + 3, RIGHT_W, row_h + 1, r=3, fill=SOFT, stroke=LINE)
+            set_fill(c, CYAN)
+            c.setFont("KR-B", 8)
+            c.drawString(x + 5, y - 1, title)
+            set_fill(c, TEXT)
+            c.setFont("KR", 7.3)
+            for i, ln in enumerate(lines):
+                c.drawString(x + 5, y - 11 - i * 9.5, ln)
+            y -= row_h + 2.5
 
     y -= 6
     y = draw_section_title(c, "기술 스택 한눈에", x, y, RIGHT_W)
@@ -459,57 +476,62 @@ def page2(c):
         "정보보안기사 학습", "ISMS 관심",
     ]
     cx, cy = x, y
-    row_h = 14
+    row_h = 12
     for label in chips:
-        tw = c.stringWidth(label, "KR", 7.5) + 12
+        tw = c.stringWidth(label, "KR", 7) + 10
         if cx + tw > x + RIGHT_W:
             cx = x
             cy -= row_h
-        draw_chip(c, label, cx, cy - 2)
+        draw_chip(c, label, cx, cy - 1, size=7)
         cx += tw + 2
-    y = cy - 20
+    y = cy - 14
 
     y = draw_section_title(c, "학력", x, y, RIGHT_W)
     set_fill(c, TEXT)
-    c.setFont("KR-B", 9.5)
+    c.setFont("KR-B", 9)
     c.drawString(x, y, "경상국립대학교 (Gyeongsang National University)")
     set_fill(c, MUTE)
-    c.setFont("KR", 8)
+    c.setFont("KR", 7.8)
     c.drawRightString(x + RIGHT_W, y, "2021. 02")
-    y -= 12
+    y -= 11
     set_fill(c, MUTE)
-    c.setFont("KR", 8.2)
+    c.setFont("KR", 8)
     c.drawString(x, y, "융합전공 P&P화학공학 · 공학사")
-    y -= 18
+    y -= 12
 
     y = draw_section_title(c, "연락 및 포트폴리오", x, y, RIGHT_W)
     rows = [
         ("Email", "caramel2516@naver.com"),
         ("KakaoTalk", "caramel112"),
         ("GitHub", "https://github.com/JimProKing"),
-        ("주요 저장소", "aegis-cortex · aegis-protocol · webhacking-bible-lab · optical-qr-transfer"),
-        ("Portfolio", "https://github.com/JimProKing/portfolio-youngchan"),
+        ("주요 저장소", "aegis-cortex · aegis-protocol · webhacking-bible-lab"),
+        ("Portfolio", "https://web-production-d48cbf.up.railway.app/"),
     ]
     for k, v in rows:
         set_fill(c, MUTE)
-        c.setFont("KR-B", 8)
+        c.setFont("KR-B", 7.8)
         c.drawString(x, y, k)
         set_fill(c, TEXT)
-        c.setFont("KR", 8.2)
-        c.drawString(x + 28 * mm, y, v)
-        y -= 12
+        c.setFont("KR", 7.8)
+        c.drawString(x + 26 * mm, y, v)
+        y -= 10
 
-    y -= 6
+    y -= 4
     note = (
         "위의 경력·프로젝트는 실제 경험과 GitHub 공개 저장소를 바탕으로 작성했습니다. "
         "상세 코드·데모는 github.com/JimProKing 에서 확인하실 수 있습니다."
     )
-    draw_round_rect(c, x, y - 22 * mm + 6, RIGHT_W, 22 * mm, r=5, fill=SOFT, stroke=LINE)
-    draw_paragraph(c, note, x + 7, y - 2, RIGHT_W - 14, size=7.8, leading=11.2, color=MUTE)
+    note_lines = wrap_text(note, "KR", 7.2, RIGHT_W - 12, c)
+    note_h = 6 + len(note_lines) * 10 + 4
+    # keep above footer
+    if y - note_h < 16 * mm:
+        y = 16 * mm + note_h
+    draw_round_rect(c, x, y - note_h + 4, RIGHT_W, note_h, r=4, fill=SOFT, stroke=LINE)
+    draw_paragraph(c, note, x + 6, y - 2, RIGHT_W - 12, size=7.2, leading=10, color=MUTE)
 
     set_fill(c, MUTE)
     c.setFont("KR", 7)
-    c.drawCentredString(W / 2 + SIDE_W / 4, 10 * mm, "2 / 2  ·  이영찬  ·  github.com/JimProKing")
+    c.drawCentredString(W / 2 + SIDE_W / 4, 8 * mm, "2 / 2  ·  이영찬  ·  github.com/JimProKing")
 
 
 def main():
