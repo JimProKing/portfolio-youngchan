@@ -17,7 +17,7 @@
     { t: "  ✓ path              chem → product → security", c: "ok", d: 140 },
     { t: "  ✓ services          threat-hunt · edu-sim · labs", c: "ok", d: 140 },
     { t: "  ✓ public_repos      50+", c: "ok", d: 120 },
-    { t: "  ✓ focus             backend · AppSec · ML interest", c: "ok", d: 160 },
+    { t: "  ✓ focus             AppSec · detect · access control", c: "ok", d: 160 },
     { t: "mounting portfolio filesystem…", d: 150 },
     { t: "ready. press any key or wait.", c: "warn", d: 80 },
   ];
@@ -115,7 +115,7 @@
 
   /* ───────── Type swap words ───────── */
   const swapEl = $("#type-swap");
-  const words = ["서버", "코드", "제품", "방어", "도구"];
+  const words = ["방어", "탐지", "보호", "검증", "운영"];
   let wi = 0;
 
   function cycleWord() {
@@ -212,7 +212,7 @@
   let cmdIndex = 0;
 
   const COMMANDS = [
-    { key: "whoami", desc: "소개 한 줄", run: () => printOut("이영찬 — 현장의 문제를 서버·제품·방어로 푸는 엔지니어\nGitHub: JimProKing · 국세청 전산직 · Flutter 10+ 출시") },
+    { key: "whoami", desc: "소개 한 줄", run: () => printOut("이영찬 — 서비스·업무 환경을 지키는 보안 엔지니어를 지향합니다.\nGitHub: JimProKing · 국세청 전산직 · 위협 헌팅·웹 보안 학습") },
     { key: "projects", desc: "프로젝트 섹션으로", run: () => { closeCmd(); location.hash = "#work"; } },
     { key: "story", desc: "스토리 섹션으로", run: () => { closeCmd(); location.hash = "#story"; } },
     { key: "stack", desc: "기술 스택", run: () => { closeCmd(); location.hash = "#stack"; } },

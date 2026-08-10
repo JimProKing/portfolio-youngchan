@@ -169,7 +169,7 @@ def draw_sidebar(c, page=1):
     c.drawCentredString(SIDE_W / 2, py - 19 * mm, "Lee Young-chan")
     set_fill(c, (0.65, 0.72, 0.82))
     c.setFont("KR", 7.5)
-    c.drawCentredString(SIDE_W / 2, py - 24 * mm, "전산 · 보안 · 풀스택 개발")
+    c.drawCentredString(SIDE_W / 2, py - 24 * mm, "정보보안 · 전산 · 제품 개발")
 
     y = py - 32 * mm
 
@@ -200,19 +200,17 @@ def draw_sidebar(c, page=1):
     ], y)
 
     y = side_block("SKILLS", [
-        "Language",
-        "  Python · Dart · JS · HTML/CSS",
-        "  VBA",
-        "Backend",
-        "  FastAPI · Flask · Django · Spring",
-        "Mobile",
-        "  Flutter (iOS · Android 배포)",
         "Security",
-        "  웹해킹 · SQLi/XSS/IDOR · Burp",
+        "  웹해킹 · SQLi/XSS/IDOR",
+        "  Burp Suite · 접근통제 학습",
         "Detect",
         "  로그 상관 · IOC · ATT&CK",
-        "Data / Ops",
-        "  pandas · 크롤링 · OCR",
+        "  위협 헌팅 · 리포트",
+        "Language",
+        "  Python · JS · Dart · HTML/CSS",
+        "Backend / Product",
+        "  FastAPI · Flask · Flutter",
+        "Ops",
         "  GitHub Actions · Railway",
     ], y)
 
@@ -268,10 +266,10 @@ def page1(c):
 
     # summary card
     summary = (
-        "화학공학 현장 자동화에서 출발해 Flutter로 10여 개 모바일 앱을 직접 출시·운영하고, "
-        "앱 해킹 피해를 계기로 보안 역량을 키워 국가직 9급 전산직에 합격한 개발자입니다. "
-        "현재 국세청 전산직으로 근무하며, 방어형 위협 헌팅·웹 해킹 교육 랩·실전 웹 도구를 "
-        "GitHub에 공개하며 보안·개발 역량을 계속 확장하고 있습니다."
+        "화학공학 전공 후 개발로 전환하여 Flutter 앱 10여 개를 출시·운영하였고, "
+        "앱 해킹 피해를 계기로 정보보안 역량을 키워 국가직 9급 전산직에 합격하였습니다. "
+        "현재 국세청 전산직으로 근무하며, 위협 헌팅·웹 보안 실습·교육용 보안 도구를 "
+        "GitHub에 공개하고 있습니다. 서비스와 업무 환경을 지키는 보안 엔지니어로 성장하고자 합니다."
     )
     card_h = 42 * mm
     draw_round_rect(c, x, y - card_h + 8, RIGHT_W, card_h, r=7, fill=SOFT, stroke=LINE)
@@ -290,9 +288,9 @@ def page1(c):
             "org": "국세청 · 국가직 9급",
             "when": "현재",
             "bullets": [
-                "4개월 집중 수험 후 국가직 9급 전산직 합격, 국세청 전산 업무 수행",
-                "앱 해킹 피해 경험을 계기로 법리·보안 전문성 보완을 목표로 공직 진출",
-                "행정 전산 환경에서의 안정적 시스템 운영·업무 전산화 감각 축적",
+                "4개월 집중 수험 후 국가직 9급 전산직에 합격하여 국세청 전산 업무를 수행하고 있습니다.",
+                "앱 해킹 피해 경험을 계기로 법리·보안 전문성을 보완하고자 공직에 진출하였습니다.",
+                "행정 전산 환경에서 안정적인 시스템 운영과 업무 전산화 감각을 쌓고 있습니다.",
             ],
         },
         {
@@ -300,10 +298,10 @@ def page1(c):
             "org": "App Store · Google Play · Flutter 크로스플랫폼",
             "when": "2022 – 2023",
             "bullets": [
-                "Flutter로 교육·자격 대비 앱 10여 개 직접 개발, iOS·Android 동시 출시·판매",
-                "영어·토익·오픽, 한국사, 화공기사, 미라클모닝 등 시리즈 운영 (App Store · Play Console)",
-                "기획·UI·배포·판매까지 전 과정 단독 수행, 개인사업자 형태로 서비스 운영",
-                "출시 앱 해킹 피해를 겪으며 개발만으로는 부족한 보안·대응 역량의 필요성을 체감",
+                "Flutter로 교육·자격 대비 앱 10여 개를 직접 개발하여 iOS·Android에 동시 출시·판매하였습니다.",
+                "영어·토익·오픽, 한국사, 화공기사, 미라클모닝 등 시리즈를 운영하였습니다.",
+                "기획·UI·배포·판매까지 전 과정을 단독으로 수행하며 개인사업자 형태로 서비스를 운영하였습니다.",
+                "출시 앱이 해킹 피해를 입으며, 개발만으로는 부족한 보안·대응 역량의 필요성을 절감하였습니다.",
             ],
         },
         {
@@ -311,9 +309,9 @@ def page1(c):
             "org": "화학공학 전공 후 사회생활 시작",
             "when": "입사 후 약 1년",
             "bullets": [
-                "화학공학 전공 후, 화학 엔지니어로 사회생활을 시작",
-                "다양한 공정 자동화 프로그램을 개인적 프로젝트로 만들며 개발에 적성을 느낌",
-                "이후 본격적으로 개발 공부를 시작한 뒤 전산계통으로 업종을 변경",
+                "화학공학 전공 후, 화학 엔지니어로 사회생활을 시작하였습니다.",
+                "다양한 공정 자동화 프로그램을 개인 프로젝트로 만들며 개발에 적성을 느꼈습니다.",
+                "이후 본격적으로 개발 공부를 시작하여 전산 계통으로 업종을 변경하였습니다.",
             ],
         },
     ]
@@ -347,28 +345,28 @@ def page1(c):
     projects = [
         (
             "Aegis Cortex — 방어형 위협 헌팅 엔진",
-            "인증·방화벽·프록시·DNS·EDR 로그와 IOC를 상관분석해 킬체인 스토리를 재구성. MITRE ATT&CK 매핑·리포트 생성 (Python).",
-            "Python · 상관분석 · IOC · ATT&CK  ·  github.com/JimProKing/aegis-cortex",
+            "인증·방화벽·프록시·DNS·EDR 로그와 IOC를 상관 분석하여 킬체인 스토리를 재구성하고, MITRE ATT&CK 매핑 리포트를 생성합니다.",
+            "Python · 로그 상관 · IOC · ATT&CK  ·  github.com/JimProKing/aegis-cortex",
         ),
         (
             "AEGIS PROTOCOL — 정보보안 교육 시뮬레이션",
-            "브라우저 기반 10개 작전(CIA~탐지대응). 브리핑·실습·디브리핑으로 위험·신뢰경계·심층방어 사고 프레임 훈련.",
-            "JavaScript · 교육 게임 · 오프라인  ·  github.com/JimProKing/aegis-protocol",
+            "브라우저 기반 10개 작전(CIA~탐지·대응). 브리핑·실습·디브리핑으로 위험·신뢰 경계·심층 방어 사고 프레임을 훈련합니다.",
+            "JavaScript · 교육 시뮬 · 오프라인  ·  github.com/JimProKing/aegis-protocol",
         ),
         (
             "VulnBoard / 웹해킹 바이블 랩",
-            "의도적 취약 웹 실습(SQLi, XSS, IDOR, Command Injection 등). Burp Suite 실습·구조화된 문제와 풀이 제공.",
+            "SQLi, XSS, IDOR, Command Injection 등 의도적 취약 웹 실습 환경을 구성하고, Burp Suite 학습용 문제와 풀이를 제공합니다.",
             "Python · Flask · 웹 보안  ·  github.com/JimProKing/webhacking-bible-lab",
         ),
         (
-            "Elliott Wave Scanner · Optical QR Transfer",
-            "엘리어트 파동 기반 차트 스캐너(GitHub Actions 자동 분석). 인터넷 없이 빛(QR)·카메라만으로 파일 전송 프로토타입.",
-            "Python · JS · Railway  ·  github.com/JimProKing",
+            "Optical QR Transfer · Access Control Labs",
+            "인터넷 없이 빛(QR)·카메라만으로 파일을 전송하는 에어갭 실험, PortSwigger 기반 접근 통제 취약점 재현 및 검증 도구를 학습하였습니다.",
+            "JS · Python · 망분리 관심 · 접근 통제",
         ),
         (
             "info-sec-memo · tax-invoice-web 외",
-            "정보보안기사 손글씨 기출 웹 노트(82p), 한국형 세금계산서 작성 웹앱 등 실무·학습용 도구.",
-            "Flask · JavaScript · 실무 웹",
+            "정보보안기사 손글씨 기출 웹 노트(82p), 한국형 세금계산서 작성 웹앱 등 보안 학습과 세무·실무 도구를 직접 제작하였습니다.",
+            "Flask · JavaScript · 보안 학습 · 세무 도구",
         ),
     ]
 
@@ -411,17 +409,18 @@ def page2(c):
 
     story = (
         "화학공학 전공 후, 화학 엔지니어로 사회생활을 시작하였습니다. "
-        "다양한 공정 자동화 프로그램을 개인적 프로젝트로 만들며, 개발에 적성을 느꼈습니다. "
-        "이후, 본격적으로 개발 공부를 시작한 뒤 전산계통으로 업종을 변경하였습니다.\n\n"
-        "퇴사 후 프로그래밍과 컴퓨터공학 실력을 쌓았고, ‘내 손으로 만든 앱을 스토어에 올리고 싶다’는 "
-        "목표로 Flutter를 택했습니다. 안드로이드·iOS 동시 배포가 가능했기 때문입니다. "
-        "개인사업자(상호명 짐앱)를 내고 교육·자격 대비 앱 10여 개를 직접 개발·출시·판매했습니다.\n\n"
-        "이후 제작한 모바일 앱이 해킹당하는 일을 겪었습니다. 개발 실력만으로는 해결되지 않는 문제가 "
-        "많다는 것을 배웠고, 법리와 보안 전문성을 함께 키우고 싶었습니다. 전산직 공무원 수험이 그 "
-        "공백을 메우는 길이 될 수 있다고 판단해 4개월간 준비하고, 국가직 9급에 합격해 국세청 "
+        "다양한 공정 자동화 프로그램을 개인 프로젝트로 만들며 개발에 적성을 느꼈습니다. "
+        "이후 본격적으로 개발 공부를 시작하여 전산 계통으로 업종을 변경하였습니다.\n\n"
+        "퇴사 후 프로그래밍과 컴퓨터공학 실력을 쌓았고, 직접 만든 앱을 스토어에 올리고자 Flutter를 선택하였습니다. "
+        "안드로이드·iOS 동시 배포가 가능하다는 점이 결정적이었습니다. "
+        "개인사업자(상호명 짐앱)를 내고 교육·자격 대비 앱 10여 개를 직접 개발·출시·판매하였습니다.\n\n"
+        "이후 제작한 모바일 앱이 해킹 피해를 입는 일을 겪었습니다. 개발 실력만으로는 해결되지 않는 문제가 "
+        "많다는 것을 배웠고, 법리와 보안 전문성을 함께 키우고자 하였습니다. 전산직 공무원 수험이 그 "
+        "공백을 메우는 길이 될 수 있다고 판단하여 4개월간 준비하였고, 국가직 9급에 합격하여 국세청 "
         "전산직으로 근무하고 있습니다.\n\n"
-        "공직 생활과 병행해 GitHub(JimProKing)에 방어형 위협 헌팅 엔진, 정보보안 교육 게임, 웹 해킹 "
-        "실습 랩, 금융·온체인 분석 도구 등을 공개하며 실전 역량을 계속 쌓고 있습니다."
+        "공직 생활과 병행하여 GitHub(JimProKing)에 방어형 위협 헌팅 엔진, 정보보안 교육 시뮬레이션, 웹 해킹 "
+        "실습 랩 등을 공개하며 실전 보안 역량을 쌓고 있습니다. 서비스와 업무 환경을 지키는 "
+        "보안 엔지니어로 성장하는 것이 목표입니다."
     )
     y = draw_paragraph(c, story, x, y, RIGHT_W, size=8.8, leading=13.2, color=TEXT)
     y -= 14
@@ -430,11 +429,11 @@ def page2(c):
     y -= 4
 
     strengths = [
-        ("현장 → 코드", "공정 자동화·개인 프로젝트 경험으로 ‘현장 문제를 소프트웨어로 줄이는’ 감각을 갖춤"),
-        ("제품 출시 경험", "아이디어를 스토어 배포·운영까지 완주한 10+ 앱 포트폴리오 (짐앱)"),
-        ("보안 동기부여", "실제 해킹 피해를 계기로 방어·교육·탐지 쪽으로 학습 방향을 전환"),
-        ("공직 + 개발", "국세청 전산 업무와 개인 오픈소스 프로젝트를 병행하는 실행력"),
-        ("학습의 공개화", "정보보안 교육 게임·암기장·랩을 만들어 스스로 검증하며 공유"),
+        ("보안 동기", "실제 해킹 피해를 계기로 방어·탐지·교육 중심으로 학습 방향을 전환하였습니다."),
+        ("가시성·헌팅", "다중 소스 로그 상관·IOC·ATT&CK 매핑으로 위협 스토리를 재구성하는 도구를 만들었습니다."),
+        ("제품 0→1", "아이디어를 스토어 배포·운영까지 완주한 10+ 앱 경험으로 실행력을 갖추었습니다."),
+        ("세무·공공 전산", "국세청 전산 업무를 수행하며 공공·세무 도메인 환경에 대한 이해를 쌓고 있습니다."),
+        ("학습의 공개화", "보안 교육 시뮬·암기장·랩을 직접 만들어 검증하고 GitHub에 공유합니다."),
     ]
 
     for title, desc in strengths:
@@ -454,10 +453,10 @@ def page2(c):
     y -= 2
 
     chips = [
-        "Python", "Flutter / Dart", "FastAPI", "Flask", "Django", "Spring",
-        "JavaScript", "HTML/CSS", "VBA / Excel", "SQLite", "pandas",
-        "GitHub Actions", "Burp Suite", "MITRE ATT&CK", "XRPL / Binance API",
-        "Railway", "OCR", "Three.js",
+        "위협 헌팅", "로그 상관", "IOC", "MITRE ATT&CK", "Burp Suite",
+        "웹 해킹", "접근 통제", "Python", "Flask", "FastAPI",
+        "Flutter / Dart", "JavaScript", "GitHub Actions", "Railway",
+        "정보보안기사 학습", "ISMS 관심",
     ]
     cx, cy = x, y
     row_h = 14
@@ -488,8 +487,8 @@ def page2(c):
         ("Email", "caramel2516@naver.com"),
         ("KakaoTalk", "caramel112"),
         ("GitHub", "https://github.com/JimProKing"),
-        ("주요 저장소", "aegis-cortex · aegis-protocol · webhacking-bible-lab · elliott-wave-scanner"),
-        ("Portfolio", "Railway 배포 예정 (YC.RUNTIME)"),
+        ("주요 저장소", "aegis-cortex · aegis-protocol · webhacking-bible-lab · optical-qr-transfer"),
+        ("Portfolio", "https://github.com/JimProKing/portfolio-youngchan"),
     ]
     for k, v in rows:
         set_fill(c, MUTE)
@@ -519,7 +518,7 @@ def main():
     c = canvas.Canvas(str(OUT), pagesize=A4)
     c.setTitle("이영찬 이력서 — Lee Young-chan")
     c.setAuthor("이영찬")
-    c.setSubject("Resume / Portfolio companion")
+    c.setSubject("Resume — Security Engineer track (Toss Income aligned)")
     page1(c)
     c.showPage()
     page2(c)
