@@ -584,13 +584,6 @@ def page2(c):
         c.drawString(x + label_col, y, v)
         y -= 11
 
-    y -= 6
-    note = (
-        "위의 경력·프로젝트는 실제 경험과 GitHub 공개 저장소를 바탕으로 작성했습니다. "
-        "상세 코드·데모는 github.com/JimProKing 에서 확인하실 수 있습니다."
-    )
-    y = draw_note_box(c, x, y, RIGHT_W, note)
-
     set_fill(c, MUTE)
     c.setFont("KR", 7)
     c.drawCentredString(W / 2 + SIDE_W / 4, 8 * mm, "2 / 2  ·  이영찬  ·  github.com/JimProKing")
