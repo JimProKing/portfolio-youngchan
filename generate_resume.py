@@ -522,7 +522,7 @@ def page2(c):
     for title, desc in strengths:
         y = draw_strength_row(c, x, y, RIGHT_W, title, desc, label_w=28 * mm, gap=4)
 
-    y -= 8
+    y -= 14  # gap above 기술 스택
     y = draw_section_title(c, "기술 스택 한눈에", x, y, RIGHT_W)
     y -= 3
 
@@ -545,7 +545,7 @@ def page2(c):
         box_bottom = row_top - chip_h
         used = draw_chip(c, label, cx, box_bottom, size=7.2, box_h=chip_h)
         cx += used
-    y = row_top - chip_h - 14
+    y = row_top - chip_h - 16  # gap above 학력
 
     y = draw_section_title(c, "학력", x, y, RIGHT_W)
     y -= 2
@@ -559,7 +559,7 @@ def page2(c):
     set_fill(c, MUTE)
     c.setFont("KR", 8.2)
     c.drawString(x, y, "융합전공 P&P화학공학 · 공학사")
-    y -= 16
+    y -= 18  # gap above 연락 및 포트폴리오
 
     y = draw_section_title(c, "연락 및 포트폴리오", x, y, RIGHT_W)
     y -= 2
