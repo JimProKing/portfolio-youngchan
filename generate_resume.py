@@ -122,62 +122,92 @@ def draw_section_title(c, title, x, y, w):
     return y - 16
 
 
-def draw_chip(c, label, x, y, font="KR", size=7.5):
-    pad_x, pad_y = 4, 2.5
+def baseline_center(box_bottom, box_h, font_size):
+    """Optical vertical center baseline inside a box (reportlab y-up)."""
+    return box_bottom + box_h / 2 - font_size * 0.32
+
+
+def draw_chip(c, label, x, box_bottom, font="KR", size=7.2, box_h=None):
+    """Draw a pill chip. `x, box_bottom` is bottom-left of the chip. Returns width used."""
+    pad_x = 5
+    if box_h is None:
+        box_h = size + 7
     tw = c.stringWidth(label, font, size)
-    w, h = tw + pad_x * 2, size + pad_y * 2 + 1
-    draw_round_rect(c, x, y - pad_y, w, h, r=3, fill=(0.90, 0.96, 0.98), stroke=(0.70, 0.88, 0.93))
+    w = tw + pad_x * 2
+    draw_round_rect(
+        c, x, box_bottom, w, box_h, r=3.5,
+        fill=(0.90, 0.96, 0.98), stroke=(0.70, 0.88, 0.93),
+    )
     set_fill(c, CYAN)
     c.setFont(font, size)
-    c.drawString(x + pad_x, y, label)
+    c.drawString(x + pad_x, baseline_center(box_bottom, box_h, size), label)
     return w + 4
 
 
-def draw_padded_box(c, x, top_y, width, lines, pad_x=7, pad_y=6, r=4,
-                    title_size=8, body_size=7.4, title_color=CYAN, body_color=TEXT,
-                    line_gap=2.5):
+def draw_strength_row(c, x, top_y, width, title, desc,
+                      label_w=30 * mm, pad_x=7, pad_y=6,
+                      title_size=8.0, body_size=7.6, gap=3):
     """
-    Draw a rounded box sized to content, with text vertically centered.
-    `lines` is a list of (text, font, size, color) OR a special single-row
-    layout: list of segments for one baseline: [(text, font, size, color), ...]
-    and multi: list of rows where each row is either str segments or one string row.
-
-    Simpler API used below: rows = list of rows; each row is list of (text, font, size, color)
-    Returns new top_y below the box (cursor for next content).
+    Fixed two-column strength row:
+      | title (left, fixed width) | description (right, wrap) |
+    Box height fits content; both columns vertically centered.
+    Returns y just below the box (with small gap).
     """
-    # measure each row width/height
-    row_heights = []
-    measured = []
-    for row in lines:
-        # row: list of segments (text, font, size, color)
-        max_sz = max(seg[2] for seg in row) if row else body_size
-        # visual line height ~ size * 1.15
-        h = max_sz * 1.15
-        measured.append((row, h, max_sz))
-        row_heights.append(h)
-
-    content_h = sum(row_heights) + line_gap * max(0, len(row_heights) - 1)
+    body_w = width - label_w - pad_x
+    body_lines = wrap_text(desc, "KR", body_size, body_w, c)
+    line_h = body_size + 3.2
+    body_block_h = max(line_h, len(body_lines) * line_h)
+    content_h = max(title_size + 2, body_block_h)
     box_h = content_h + pad_y * 2
     box_bottom = top_y - box_h
 
-    draw_round_rect(c, x, box_bottom, width, box_h, r=r, fill=SOFT, stroke=LINE)
+    draw_round_rect(c, x, box_bottom, width, box_h, r=4, fill=SOFT, stroke=LINE)
 
-    # content block centered vertically inside box
-    block_top = box_bottom + box_h - pad_y
-    cursor = block_top
-    for row, h, max_sz in measured:
-        # baseline: optical vertical center of this row band
-        # band occupies [cursor-h, cursor]; baseline ~ center - 0.32*size
-        baseline = cursor - h / 2 - max_sz * 0.12
-        sx = x + pad_x
-        for text, font, size, color in row:
-            set_fill(c, color)
-            c.setFont(font, size)
-            c.drawString(sx, baseline, text)
-            sx += c.stringWidth(text, font, size)
-        cursor -= h + line_gap
+    mid = box_bottom + box_h / 2
 
-    return box_bottom - 3  # gap under box
+    # title — vertical center in left column
+    set_fill(c, CYAN)
+    c.setFont("KR-B", title_size)
+    c.drawString(x + pad_x, baseline_center(box_bottom, box_h, title_size), title)
+
+    # body — vertical center as a block in right column
+    set_fill(c, TEXT)
+    c.setFont("KR", body_size)
+    if len(body_lines) == 1:
+        by = baseline_center(box_bottom, box_h, body_size)
+        c.drawString(x + label_w, by, body_lines[0])
+    else:
+        # center the multi-line block as a whole
+        block_h = len(body_lines) * line_h
+        # top of first line's em-box
+        first_top = mid + block_h / 2
+        for i, ln in enumerate(body_lines):
+            by = first_top - i * line_h - body_size * 0.85
+            c.drawString(x + label_w, by, ln)
+
+    return box_bottom - gap
+
+
+def draw_note_box(c, x, top_y, width, text, size=7.3, pad_x=8, pad_y=7):
+    """Content-sized note box with vertically centered wrapped text."""
+    lines = wrap_text(text, "KR", size, width - pad_x * 2, c)
+    line_h = size + 3
+    content_h = len(lines) * line_h
+    box_h = content_h + pad_y * 2
+    box_bottom = top_y - box_h
+    draw_round_rect(c, x, box_bottom, width, box_h, r=4, fill=SOFT, stroke=LINE)
+    mid = box_bottom + box_h / 2
+    block_h = len(lines) * line_h
+    start = mid + block_h / 2
+    set_fill(c, MUTE)
+    c.setFont("KR", size)
+    for i, ln in enumerate(lines):
+        if len(lines) == 1:
+            by = baseline_center(box_bottom, box_h, size)
+        else:
+            by = start - (i + 1) * line_h + (line_h - size) * 0.45
+        c.drawString(x + pad_x, by, ln)
+    return box_bottom - 4
 
 
 def draw_sidebar(c, page=1):
@@ -311,28 +341,30 @@ def page1(c):
     c.line(x, y, x + 36 * mm, y)
     y -= 14
 
-    # summary card — content-sized, vertically centered text
+    # summary card
     summary = (
         "화학공학 전공 후 개발로 전환하여 Flutter 앱 10여 개를 출시·운영하였고, "
         "앱 해킹 피해를 계기로 정보보안 역량을 키워 국가직 9급 전산직에 합격하였습니다. "
         "현재 국세청 전산직으로 근무하며, 위협 헌팅·웹 보안 실습·교육용 보안 도구를 "
         "GitHub에 공개하고 있습니다. 서비스와 업무 환경을 지키는 보안 엔지니어로 성장하고자 합니다."
     )
-    sum_size = 8.2
-    sum_pad_x, sum_pad_y = 8, 7
+    sum_size, sum_pad_x, sum_pad_y = 8.2, 9, 8
     sum_lines = wrap_text(summary, "KR", sum_size, RIGHT_W - sum_pad_x * 2 - 4, c)
-    sum_rows = [[(ln, "KR", sum_size, TEXT)] for ln in sum_lines]
-    # measure then draw with accent bar
-    y_before = y
-    y = draw_padded_box(
-        c, x, y, RIGHT_W, sum_rows,
-        pad_x=sum_pad_x, pad_y=sum_pad_y, r=5, line_gap=2.2,
-    )
-    # cyan accent on left of the just-drawn box
-    box_h = y_before - y - 3
+    line_h = sum_size + 3.2
+    content_h = len(sum_lines) * line_h
+    card_h = content_h + sum_pad_y * 2
+    box_bottom = y - card_h
+    draw_round_rect(c, x, box_bottom, RIGHT_W, card_h, r=5, fill=SOFT, stroke=LINE)
     set_fill(c, CYAN)
-    c.rect(x, y + 3, 2.2, box_h, fill=1, stroke=0)
-    y -= 6
+    c.rect(x, box_bottom, 2.4, card_h, fill=1, stroke=0)
+    mid = box_bottom + card_h / 2
+    start = mid + content_h / 2
+    set_fill(c, TEXT)
+    c.setFont("KR", sum_size)
+    for i, ln in enumerate(sum_lines):
+        by = start - (i + 1) * line_h + (line_h - sum_size) * 0.45
+        c.drawString(x + sum_pad_x + 2, by, ln)
+    y = box_bottom - 8
 
     # Experience
     y = draw_section_title(c, "경력 및 여정", x, y, RIGHT_W)
@@ -477,7 +509,7 @@ def page2(c):
     y -= 10
 
     y = draw_section_title(c, "핵심 강점", x, y, RIGHT_W)
-    y -= 2
+    y -= 1
 
     strengths = [
         ("보안 동기", "실제 해킹 피해를 계기로 방어·탐지·교육 중심으로 학습 방향을 전환하였습니다."),
@@ -487,36 +519,12 @@ def page2(c):
         ("학습의 공개화", "보안 교육 시뮬·암기장·랩을 직접 만들어 검증하고 GitHub에 공유합니다."),
     ]
 
-    title_size, body_size = 8.0, 7.5
-    pad_x, pad_y = 8, 6
-    gap_title = 6  # space between title and body on same line
-
     for title, desc in strengths:
-        title_w = c.stringWidth(title, "KR-B", title_size)
-        # try single line: title + gap + desc
-        avail_same = RIGHT_W - pad_x * 2 - title_w - gap_title
-        if c.stringWidth(desc, "KR", body_size) <= avail_same:
-            rows = [[
-                (title, "KR-B", title_size, CYAN),
-                ("  ", "KR", body_size, TEXT),
-                (desc, "KR", body_size, TEXT),
-            ]]
-        else:
-            # title alone, then wrapped body
-            body_lines = wrap_text(desc, "KR", body_size, RIGHT_W - pad_x * 2, c)
-            rows = [[(title, "KR-B", title_size, CYAN)]]
-            for bl in body_lines:
-                rows.append([(bl, "KR", body_size, TEXT)])
-        y = draw_padded_box(
-            c, x, y, RIGHT_W, rows,
-            pad_x=pad_x, pad_y=pad_y, r=4,
-            line_gap=2.0,
-        )
-        y -= 1  # small gap between cards
+        y = draw_strength_row(c, x, y, RIGHT_W, title, desc, label_w=28 * mm)
 
     y -= 6
     y = draw_section_title(c, "기술 스택 한눈에", x, y, RIGHT_W)
-    y -= 2
+    y -= 1
 
     chips = [
         "위협 헌팅", "로그 상관", "IOC", "MITRE ATT&CK", "Burp Suite",
@@ -524,59 +532,58 @@ def page2(c):
         "Flutter / Dart", "JavaScript", "GitHub Actions", "Railway",
         "정보보안기사 학습", "ISMS 관심",
     ]
-    cx, cy = x, y
-    row_h = 12
+    chip_h = 14
+    chip_gap_y = 4
+    cx = x
+    # place chips top-down: top_y is baseline for top of chip row
+    row_top = y
     for label in chips:
-        tw = c.stringWidth(label, "KR", 7) + 10
-        if cx + tw > x + RIGHT_W:
+        need = c.stringWidth(label, "KR", 7.2) + 10 + 4
+        if cx + need > x + RIGHT_W:
             cx = x
-            cy -= row_h
-        draw_chip(c, label, cx, cy - 1, size=7)
-        cx += tw + 2
-    y = cy - 14
+            row_top -= chip_h + chip_gap_y
+        box_bottom = row_top - chip_h
+        used = draw_chip(c, label, cx, box_bottom, size=7.2, box_h=chip_h)
+        cx += used
+    y = row_top - chip_h - 12
 
     y = draw_section_title(c, "학력", x, y, RIGHT_W)
     set_fill(c, TEXT)
     c.setFont("KR-B", 9)
     c.drawString(x, y, "경상국립대학교 (Gyeongsang National University)")
     set_fill(c, MUTE)
-    c.setFont("KR", 7.8)
-    c.drawRightString(x + RIGHT_W, y, "2021. 02")
-    y -= 11
-    set_fill(c, MUTE)
     c.setFont("KR", 8)
-    c.drawString(x, y, "융합전공 P&P화학공학 · 공학사")
+    c.drawRightString(x + RIGHT_W, y, "2021. 02")
     y -= 12
+    set_fill(c, MUTE)
+    c.setFont("KR", 8.2)
+    c.drawString(x, y, "융합전공 P&P화학공학 · 공학사")
+    y -= 14
 
     y = draw_section_title(c, "연락 및 포트폴리오", x, y, RIGHT_W)
-    rows = [
+    contact_rows = [
         ("Email", "caramel2516@naver.com"),
         ("KakaoTalk", "caramel112"),
         ("GitHub", "https://github.com/JimProKing"),
         ("주요 저장소", "aegis-cortex · aegis-protocol · webhacking-bible-lab"),
         ("Portfolio", "https://web-production-d48cbf.up.railway.app/"),
     ]
-    for k, v in rows:
+    label_col = 26 * mm
+    for k, v in contact_rows:
         set_fill(c, MUTE)
-        c.setFont("KR-B", 7.8)
+        c.setFont("KR-B", 8)
         c.drawString(x, y, k)
         set_fill(c, TEXT)
-        c.setFont("KR", 7.8)
-        c.drawString(x + 26 * mm, y, v)
-        y -= 10
+        c.setFont("KR", 8)
+        c.drawString(x + label_col, y, v)
+        y -= 11
 
-    y -= 4
+    y -= 6
     note = (
         "위의 경력·프로젝트는 실제 경험과 GitHub 공개 저장소를 바탕으로 작성했습니다. "
         "상세 코드·데모는 github.com/JimProKing 에서 확인하실 수 있습니다."
     )
-    note_lines = wrap_text(note, "KR", 7.2, RIGHT_W - 12, c)
-    note_h = 6 + len(note_lines) * 10 + 4
-    # keep above footer
-    if y - note_h < 16 * mm:
-        y = 16 * mm + note_h
-    draw_round_rect(c, x, y - note_h + 4, RIGHT_W, note_h, r=4, fill=SOFT, stroke=LINE)
-    draw_paragraph(c, note, x + 6, y - 2, RIGHT_W - 12, size=7.2, leading=10, color=MUTE)
+    y = draw_note_box(c, x, y, RIGHT_W, note)
 
     set_fill(c, MUTE)
     c.setFont("KR", 7)
