@@ -2,6 +2,10 @@
 
 토스인컴 Security Engineer 등 채용 지원용 **개인 소개 웹사이트**.
 
+| 분류 | 상태 | 스택 | 바로 보기 |
+| --- | --- | --- | --- |
+| 포트폴리오 · 웹 | 운영 중 | HTML · CSS · JavaScript · Railway | [Live](https://web-production-d48cbf.up.railway.app/) |
+
 - GitHub: [JimProKing](https://github.com/JimProKing)
 - Live: https://web-production-d48cbf.up.railway.app/
 - 로컬: 부팅 연출 → 스토리 타임라인 → 프로젝트 벤토 → 커맨드 팔레트(`⌘K` / `Ctrl+K`)
@@ -70,3 +74,10 @@ README.md
 - 연락처·프로젝트 링크: `index.html`
 - 색·타이포: `css/style.css` 의 `:root`
 - 부팅 로그 문구: `js/app.js` 의 `lines` 배열
+
+---
+
+**관련 저장소** · [JimProKing](https://github.com/JimProKing/JimProKing)
+
+<sub>[JimProKing](https://github.com/JimProKing) · 이영찬 — 전체 저장소는 프로필의 프로젝트 지도에서 분야별로 볼 수 있습니다.</sub>
+<!-- jpk-footer -->
