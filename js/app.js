@@ -212,7 +212,7 @@
   let cmdIndex = 0;
 
   const COMMANDS = [
-    { key: "whoami", desc: "소개 한 줄", run: () => printOut("이영찬 — 서비스·업무 환경을 지키는 보안 엔지니어를 지향합니다.\nGitHub: JimProKing · 국세청 전산직 · 위협 헌팅·웹 보안 학습") },
+    { key: "whoami", desc: "소개 한 줄", run: () => printOut("이영찬 — 서비스·업무 환경을 지키는 보안 엔지니어를 지향합니다.\nGitHub: JimProKing · 국가기관 전산직 · 위협 헌팅·웹 보안 학습") },
     { key: "projects", desc: "프로젝트 섹션으로", run: () => { closeCmd(); location.hash = "#work"; } },
     { key: "story", desc: "스토리 섹션으로", run: () => { closeCmd(); location.hash = "#story"; } },
     { key: "stack", desc: "기술 스택", run: () => { closeCmd(); location.hash = "#stack"; } },
